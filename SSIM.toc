@@ -32,4 +32,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3}Estrazione dell'indice}{15}{subsection.3.3}
 \defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Esempio di esecuzione}{16}{subsection.3.4}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Conclusioni}{17}{section.4}
