@@ -32,7 +32,7 @@
     \pretitle{%
     \begin{center}
         \LARGE
-        \includegraphics[scale=0.6]{logo}\\[\bigskipamount]
+        \includegraphics[scale=0.4]{logo}\\[\bigskipamount]
     }
     \posttitle{\end{center}}
     %\pagestyle{headings}
@@ -71,6 +71,12 @@
         comprende anche i raggi infrarossi e quelli ultravioletti. E’ composto da quella parte di
         spettro elettromagnetico che include tutte le colorazioni percepite dall’occhio umano,
         partendo dal rosso fino ad arrivare al viola.
+        La colorimetria utilizza la percentuale della luce incidente che è stata riflessa (%R) compresa
+        nell'intervallo del visibile (400-700 nm) per descrivere il colore dell'oggetto. Applicazioni
+        particolari quali la misurazione della fluorescenza, del bianco ed i colori mimetici prendono in
+        considerazione anche le radiazioni UV (350-400nm) e NIR (700-1300nm). Ciascun oggetto
+        colorato viene pertanto definito da una curva di riflettanza, similmente alle impronte digitali
+        nell’uomo. 
         \begin{figure}[h]
             \centering
             \includegraphics[scale=0.3]{colorimetria3}
@@ -193,7 +199,7 @@
     $c_3 = c_2 / 2$ 
 
     L'SSIM è quindi una combinazione ponderata di tali misure comparative:
-    $$SSIM(x,y) = [l(x,y)^\alpha \cdot c(x,y)^\beta \cdot s(x,y)^\gamma$$
+    $$SSIM(x,y) = [l(x,y)^\alpha \cdot c(x,y)^\beta \cdot s(x,y)^\gamma]$$
     
     \newpage
 
@@ -338,9 +344,15 @@
     La funzione scorre come una finestra mobile (di dimensione block size) contemporaneamente l'immagine originale e quella compressa e ne calcola le varianze, le medie e la covarianza. 
     Ognuno di questi confronti contribuirà al risultato della funzione che sarà sempre un numero compreso tra -1 ed 1.
     Se le due immagini sono identiche, allora il risultato sarà 1 altrimenti sarà un numero sempre minore fino al -1 che rappresenta due immagini completamente diverse.
-    
+
+    \subsection{Esempio di esecuzione}
+    Una volta compilato il programma tramite il Makefile, l'utente deve preoccuparsi esclusivamente di fornire le immagini da confrontare ed eseguire il programma.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.9]{esempio}
+        \caption{"Suddivisione in bande della tavola Savoia-Navona-Matte"}
+    \end{figure}
     \newpage
-    
     \section{Conclusioni} 
     L'idea di utilizzare 21 bande anziché 31 ha generato un'immagine che, confrontata con l'originale, ha dato un indice SSIM di:
     +-X,XXXX
