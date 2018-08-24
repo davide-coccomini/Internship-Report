@@ -170,7 +170,7 @@
     
     \subsubsection{SSIM}
     Risulta quindi necessario individuare un metodo oggettivo per il confronto tra l'immagine originale e quella compressa. 
-    Si è deciso di utilizzare lo structural similarity index method (SSIM) che è un metodo ampiamente utilizzato per la predizione la qualità percettiva delle immagini televisive e cinematografiche.
+    Si è deciso di utilizzare lo structural similarity index method (SSIM) che è un metodo ampiamente utilizzato per la predizione della qualità percettiva delle immagini televisive e cinematografiche.
     L'SSIM considera il degrado dell'immagine come cambiamento percepito nelle informazioni strutturali, mentre incorpora anche importanti fenomeni percettivi, inclusi sia il mascheramento della luminanza che i termini di mascheramento del contrasto. 
     \subsubsection{Algoritmo}
     L'indice SSIM viene calcolato su varie finestre di un'immagine. La misura tra due finestre $x$ e $y$ di dimensione NxN è: \\[0.2in]
@@ -196,7 +196,7 @@
         \item $s(x,y)=\frac{\sigma_{xy} + c_3}{\sigma_x \sigma_y + c_3}$
     \end{enumerate}
     con, oltre alle definizioni di cui sopra:\\
-    $c_3 = c_2 / 2$ 
+    $c_3 = c_2 / 2$ \\
 
     L'SSIM è quindi una combinazione ponderata di tali misure comparative:
     $$SSIM(x,y) = [l(x,y)^\alpha \cdot c(x,y)^\beta \cdot s(x,y)^\gamma]$$
@@ -211,7 +211,7 @@
     Inoltre, essa include a sua volta altre librerie come la libtiff che utilizzeremo per la lettura delle immagini.
     
     \subsubsection{Tavola Savoia-Navona-Matte}
-    Come soggetto dell'immagine è stata scelta la tavola Savoia-Navona-Matte, rappresentative di numerose sfumature di colore ed utilizzare per effettuare test sugli spettrofotometri.
+    Come soggetto dell'immagine è stata scelta la tavola Savoia-Navona-Matte, rappresentativa di numerose sfumature di colore ed utilizzata per effettuare test sugli scanner.
 
     \begin{figure}[h]
         \centering
@@ -231,7 +231,7 @@
     \newpage
     \subsection{Rappresentazione delle immagini}
     Avendo a disposizione due immagini in formato TIFF, il primo problema da affrontare è riuscire a rappresentare questa immagine in una struttura dati che possa essere poi manipolata per ottenerne informazioni.
-    Per fare ciò sfruttiamo la libreria OpenCV e, in particolare, la libtiff. Tramite le funzioni di questa libreria, si legge l'immagine e la si trasforma in una matrice sfruttando la struttura dati "Mat" messa a disposizione dalla OpenCV:
+    Per fare ciò sfruttiamo la libreria OpenCV e, in particolare, la libtiff. Tramite le funzioni di questa libreria, si legge l'immagine e la si trasforma in una matrice sfruttando la struttura dati "Mat" messa a disposizione dalla OpenCV: \\
  
     \begin{lstlisting}[language=C++]
             bool tifToMat(Mat& image,string imageName){
@@ -298,7 +298,7 @@
     \newpage
 
     \subsection{Estrazione dell'indice}
-    Adesso che le immagini sono state trasformate in strutture dati, è possibile ricavarne informazioni seguendo le formule precedentemente dette:
+    Adesso che le immagini sono state trasformate in strutture dati, è possibile ricavarne informazioni seguendo le formule precedentemente dette: \\
     \begin{lstlisting}[language=C++]
         double getSSIM(Mat & img_src, Mat & img_compressed, int block_size, bool show_progress = true)
         {
