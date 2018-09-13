@@ -170,7 +170,7 @@
     
     \subsubsection{SSIM}
     Risulta quindi necessario individuare un metodo oggettivo per il confronto tra l'immagine originale e quella compressa. 
-    Si è deciso di utilizzare lo structural similarity index method (SSIM) che è un metodo ampiamente utilizzato per la predizione della qualità percettiva delle immagini televisive e cinematografiche.
+    Si è deciso di utilizzare lo structural similarity index method (SSIM) che è un metodo ampiamente utilizzato per la predizione la qualità percettiva delle immagini televisive e cinematografiche.
     L'SSIM considera il degrado dell'immagine come cambiamento percepito nelle informazioni strutturali, mentre incorpora anche importanti fenomeni percettivi, inclusi sia il mascheramento della luminanza che i termini di mascheramento del contrasto. 
     \subsubsection{Algoritmo}
     L'indice SSIM viene calcolato su varie finestre di un'immagine. La misura tra due finestre $x$ e $y$ di dimensione NxN è: \\[0.2in]
@@ -196,7 +196,7 @@
         \item $s(x,y)=\frac{\sigma_{xy} + c_3}{\sigma_x \sigma_y + c_3}$
     \end{enumerate}
     con, oltre alle definizioni di cui sopra:\\
-    $c_3 = c_2 / 2$ \\
+    $c_3 = c_2 / 2$ 
 
     L'SSIM è quindi una combinazione ponderata di tali misure comparative:
     $$SSIM(x,y) = [l(x,y)^\alpha \cdot c(x,y)^\beta \cdot s(x,y)^\gamma]$$
@@ -211,7 +211,7 @@
     Inoltre, essa include a sua volta altre librerie come la libtiff che utilizzeremo per la lettura delle immagini.
     
     \subsubsection{Tavola Savoia-Navona-Matte}
-    Come soggetto dell'immagine è stata scelta la tavola Savoia-Navona-Matte, rappresentativa di numerose sfumature di colore ed utilizzata per effettuare test sugli scanner.
+    Come soggetto dell'immagine è stata scelta la tavola Savoia-Navona-Matte, rappresentative di numerose sfumature di colore ed utilizzare per effettuare test sugli spettrofotometri.
 
     \begin{figure}[h]
         \centering
@@ -226,79 +226,51 @@
         \includegraphics[scale=0.15]{tavola2}
         \caption{"Suddivisione in bande della tavola Savoia-Navona-Matte"}
     \end{figure}
-
-
     \newpage
     \subsection{Rappresentazione delle immagini}
-    Avendo a disposizione due immagini in formato TIFF, il primo problema da affrontare è riuscire a rappresentare questa immagine in una struttura dati che possa essere poi manipolata per ottenerne informazioni.
-    Per fare ciò sfruttiamo la libreria OpenCV e, in particolare, la libtiff. Tramite le funzioni di questa libreria, si legge l'immagine e la si trasforma in una matrice sfruttando la struttura dati "Mat" messa a disposizione dalla OpenCV: \\
+    Avendo a disposizione due immagini in formato TIFF, il primo problema da affrontare è riuscire a rappresentare queste immagini in delle strutture dati che possano essere poi manipolate per ottenerne informazioni.
+    Per fare ciò sfruttiamo la libreria OpenCV e, in particolare, la funzione imread. Tramite questa funzione, si leggono le immagini e le si trasforma in matrici sfruttando la struttura dati "Mat" messa a disposizione dalla OpenCV:
  
     \begin{lstlisting}[language=C++]
-            bool tifToMat(Mat& image,string imageName){
-                // Read images and create the Mat
-                TIFF* tif = TIFFOpen(imageName.c_str(), "r");
-                
-                if (tif) {
-                    do {
-                        unsigned int width, height;
-                        uint32* raster;
-
-                        // Get the size of the tiff
-                        TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
-                        TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
-
-                        uint npixels = width*height; // Get the total number of pixels
-
-                        raster = (uint32*)_TIFFmalloc(npixels * sizeof(uint32)); // Allocate temp memory (bitmap)
-                        if (raster == NULL) // Check the raster's memory was allocated
-                        {
-                            TIFFClose(tif);
-                            cerr << "Raster allocate error" << endl;
-                            return false;
-                        }
-                                
-                        // Check the tif read to the raster correctly
-                        if (!TIFFReadRGBAImage(tif, width, height, raster, 0))
-                        {
-                            TIFFClose(tif);
-                            cerr << "Raster read error" << endl;
-                            return false;
-                        }
-
-                        // Create a new matrix of width x height with 8 bits per channel and 4 channels (RGBA)
-                        image = Mat(width, height, CV_8UC4); 
-                                
-                        // Itterate through all the pixels of the tif
-                        for (uint x = 0; x < width; x++)
-                            for (uint y = 0; y < height; y++)
-                            {
-                                uint32& TiffPixel = raster[y*width+x]; // Read the current pixel of the TIF
-                                Vec4b& pixel = image.at<Vec4b>(Point(y, x)); // Read the current pixel of the matrix
-                                pixel[0] = TIFFGetB(TiffPixel); // Set the pixel values as BGRA
-                                pixel[1] = TIFFGetG(TiffPixel);
-                                pixel[2] = TIFFGetR(TiffPixel);
-                                pixel[3] = TIFFGetA(TiffPixel);
-                            }
-                        
-                        // Free temp memory
-                        _TIFFfree(raster); 
-
-                        // Rotate the image 90 degrees 
-                        image = image.t(); // Traspose
-                        flip(image, image, 0);
-                    
-                    } while (TIFFReadDirectory(tif)); // Get the next tif to go into the channels
-
-                TIFFClose(tif); // Close the tif file
-                }else return false;
-         return true;
+    int main(){   
+        Mat originalImage, compressedImage;
+        string defaultSettings;
+        string originalImagePath("images/0.tif");
+        string compressedImagePath("images/1.tif");
+        
+        cout<<"+++ Welcome to SSIM calculator +++"<<endl<<"You can use this program to calculate how much similar are two TIFF images with the same subject"<<endl;
+        cout<<"Do you want to use the default settings? Y/N"<<endl;
+        cin>>defaultSettings;
+        if(defaultSettings.compare("N") == 0){
+          string folderName, originalImageName,compressedImageName;
+          cout<<"Insert the folder name of the images"<<endl;
+          cin>>folderName;
+          cout<<"Insert the name of the original image (without format)"<<endl;
+          cin>>originalImageName;
+          cout<<"Insert the name of the compressed image (without format)"<<endl;
+          cin>>compressedImageName;
+          originalImagePath = folderName+"/"+originalImageName+".tif";
+          compressedImagePath = folderName+"/"+compressedImageName+".tif";
+          cout<<"Settings updated successfully"<<endl;	
         }
+        cout<<"Starting computation ..."<<endl;
+      
+        originalImage = imread(originalImagePath, CV_LOAD_IMAGE_UNCHANGED);
+        compressedImage = imread(compressedImagePath, CV_LOAD_IMAGE_UNCHANGED);
+      
+        originalImage.convertTo(originalImage, CV_64FC3);
+        compressedImage.convertTo(compressedImage, CV_64FC3);
+      
+      
+        double SSIM = getSSIM(originalImage, compressedImage,1);
+        return 0;
+     }
     \end{lstlisting}
 
     \newpage
 
     \subsection{Estrazione dell'indice}
-    Adesso che le immagini sono state trasformate in strutture dati, è possibile ricavarne informazioni seguendo le formule precedentemente dette: \\
+    Adesso che le immagini sono state trasformate in strutture dati, è possibile ricavarne informazioni seguendo le formule precedentemente dette:
     \begin{lstlisting}[language=C++]
         double getSSIM(Mat & img_src, Mat & img_compressed, int block_size, bool show_progress = true)
         {
